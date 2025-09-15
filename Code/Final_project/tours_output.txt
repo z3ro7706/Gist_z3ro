@@ -1,0 +1,10 @@
+                      Tour Ticket Prices from Miami
+Country             City                     Population          Price     
+---------------------------------------------------------------------------
+Colombia            Bogota                              876768686    400.98
+                    Cali                                 22334455    425.98
+                    Medellin                             12328686    300.89
+                    Cartagena                            89788721    350.98
+Brazil              Rio De Janiero                      123580000    600.00
+                    Sao Paulo                           180343000    970.00
+                    Salvador                             18280000    600.00
