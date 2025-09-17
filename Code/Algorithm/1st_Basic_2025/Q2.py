@@ -1,23 +1,27 @@
 import sys
+import re
 input=sys.stdin.readline
 
-arr=list(map(int, input().split(',')))
+def Find_max(l:list):
+    max=l[0]
+    for i in l:
+        if(i>=max):
+            max=i
 
-value_max=max(arr)
-arr.remove(value_max)
+    return max
 
-add_list = set()
-l = len(arr)
+def LongestWord(sen):
+    arr_del=re.findall(r"[A-Za-z0-9]+", sen)
+    arr_count=[]
+    for i in arr_del:
+        arr_count.append(len(i))
+    
+    key=Find_max(arr_count)
+    for i in arr_del:
+        if(len(i)==key):
+            return i
 
-def add(t,c):
-    if c < l:
-        add(t+arr[c],c+1)
-        add(t,c+1)
-    else:
-        add_list.add(t)
 
-add(0,0)
-if(value_max in add_list):
-    print("true")
-else:
-    print("false")
+arr=input().strip()
+
+print(LongestWord(arr))

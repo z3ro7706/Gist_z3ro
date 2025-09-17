@@ -1,18 +1,11 @@
 import sys
 input=sys.stdin.readline
 
-arr=list(input())
-arr_new=[]
+def SimpleAdding(n):
+    if(n<=1):
+        return 1
+    return SimpleAdding(n-1)+n
 
-key=arr[0]
-count=0
-for i in range(0,len(arr)):
-    if(arr[i]==key):
-        count+=1
-    else:
-        arr_new.append(count)
-        arr_new.append(key)
-        key=arr[i]
-        count=1
+x=int(input())
+print(SimpleAdding(x))
 
-print(*arr_new,sep="")

@@ -1,15 +1,13 @@
 import sys
 input=sys.stdin.readline
 
-n=int(input())
-
-if(n<0 or n>18):
-    print("Range error")
-    exit(0)
-
+def FirstFacorial(n):
+    if(n<=1):
+        return 1
     
-value=1
-for i in range(0,n):
-    value=value*(i+1)
+    num=FirstFacorial(n-1)*n
+    return num
 
-print(value)
+x=int(input())
+print(FirstFacorial(x))
+

@@ -1,5 +1,10 @@
 import sys
 input=sys.stdin.readline
 
-x,y=map(int,input().split(','))
-print(x+y)
+def FirstReverse(str):
+    return str[::-1]
+
+
+
+arr=list(input().strip())
+print(*FirstReverse(arr),sep="")
