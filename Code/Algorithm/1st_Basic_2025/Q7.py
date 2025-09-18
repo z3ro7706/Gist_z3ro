@@ -7,8 +7,9 @@ def ConsonantCount(w):
     vowels = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "u"," "]
     arr_find=[]
     for i in word:
-        if(i not in vowels):
-            arr_find.append(i)
+        if 'A'<=i<='z':
+            if(i not in vowels):
+                arr_find.append(i)
             
         
     return len(arr_find)
