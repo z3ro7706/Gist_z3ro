@@ -1,27 +1,27 @@
 import sys
 input=sys.stdin.readline
 
-def StringPeriods(word:str,a:int,key):
+def StringPeriods(word:str,a:int,key:list):
     arr=list(word)
 
-    if(len(arr)<=1):
-        return -1
-        
-    if(len(arr)//2<a):
+    if(a>=len(arr)):
         return key
     
-    if(len(arr)%a!=0):
+    if(Judgment(arr,a) is True):
+        return StringPeriods(arr,a+1,arr[:a])
+    
+    else:
         return StringPeriods(arr,a+1,key)
-    key_n=[]
-    for i in range(0,a):
-        key_n.append(arr[i])
 
+
+def Judgment(arr:list,length:int):
+    if((len(arr)%length)!=0):
+        return False
+    
     for i in range(0,len(arr)):
-        if(arr[i]!=key_n[i%a]):
-            return StringPeriods(arr,a+1,key_n)
-
-    return StringPeriods(arr,a+1,key_n)
-
+        if(arr[i]!=arr[i%length]):
+            return False
+    return True
 
 x=input().strip()
-print(*StringPeriods(x,1,-1),sep="")
+print(*StringPeriods(x,1,[-1]),sep="")
