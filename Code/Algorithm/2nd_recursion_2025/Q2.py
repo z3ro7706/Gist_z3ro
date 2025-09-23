@@ -1,7 +1,7 @@
 import sys
 input=sys.stdin.readline
 
-arr=list(map(int,input().split(',')))
+arr=input()
 arr_sort=[]
 
 def find_min(arr):
