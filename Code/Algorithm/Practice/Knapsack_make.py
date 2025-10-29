@@ -34,7 +34,7 @@ n=int(input())
 print("Input bag capacity : ")
 m=int(input())
 print("Input data Price : ")
-p=list(map(int,input.split()))
+p=list(map(int,input().split()))
 print("Input data weight : ")
 w=list(map(int,input().split()))
 
