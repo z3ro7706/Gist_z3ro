@@ -20,7 +20,7 @@ def Heap_append(arr:list,n:int):
     length=len(arr) 
     point=length-1
     parent=(point-1)//2
-    while(point>=0 and parent>=0 and arr[point]>=arr[parent]): #현재 위치가 arr 안에 존재 + arr의 parent 가 존재 + 현재 위치의 값이 parent보다 클떄 진행
+    while(point>=0 and parent>=0 and arr[point]<=arr[parent]): #현재 위치가 arr 안에 존재 + arr의 parent 가 존재 + 현재 위치의 값이 parent보다 클떄 진행
         arr[point],arr[parent]=arr[parent],arr[point] #둘을 스윕
         point=parent #현재 위치를 바뀐 위치로 바꾸기
         parent=(point-1)//2 #새로운 paraent point 잡아주기
@@ -39,12 +39,12 @@ def Delete_max_heap(arr:list):
     child_l=(point*2)+1
     child_r=(point*2)+2
 
-    if(arr[child_l]>=arr[child_r]):
+    if(arr[child_l]<=arr[child_r]):
         child=child_l
     else:
         child=child_r
 
-    while(point<len(arr)and child<len(arr) and arr[child]>=arr[point]):
+    while(point<len(arr)and child<len(arr) and arr[child]<=arr[point]):
         arr[point],arr[child]=arr[child],arr[point]
 
         point=child
@@ -54,7 +54,7 @@ def Delete_max_heap(arr:list):
             child=len(arr)+1
         elif(child_r>=len(arr)):
             child=child_l
-        elif(arr[child_l]>=arr[child_r]):
+        elif(arr[child_l]<=arr[child_r]):
             child=child_l
         else:
             child=child_r
