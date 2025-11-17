@@ -29,8 +29,8 @@ def Heap_append(arr:list,n:int):
 
 def Delete_max_heap(arr:list):
     arr[0],arr[-1]=arr[-1],arr[0] #max와 맨 아래 값을 서로 swqp
-    max_v=arr.pop()
-    print(max_v)
+    print(arr[-1])
+    arr.remove(arr[-1]) #마지막 리스트 제거 (max 값 제거)
     if(len(arr)<=3):
         arr=Make_heap(arr)
         return arr
@@ -77,20 +77,8 @@ def Find_max_point(arr):
             max_p=i
     return max_p
 
-x=int(input().strip())
-arr=[]
-for i in range(0,x):
-    data=int(input())
-    if(data==0):
-        if(len(arr)==0):
-            print(0)
-        else:
-            arr=Delete_max_heap(arr)
-    else:
-        if(len(arr)==0):
-            arr.append(data)
-        else:
-            arr=Heap_append(arr,data)
-    
+arr=list(map(int,input().split()))
+arr=Make_heap(arr)
+print(Delete_max_heap(arr))
 
     
