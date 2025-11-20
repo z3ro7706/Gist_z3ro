@@ -1,11 +1,11 @@
 import sys
-input=sys.stdin.readline
+input = sys.stdin.readline
 
 
 def Bowl(l, r, nums, dp):
     if l + 1 >= r:
         return 0
-    
+
     if dp[l][r] != -1:
         return dp[l][r]
 
@@ -20,7 +20,7 @@ def Bowl(l, r, nums, dp):
     return _max
 
 
-arr=list(map(int,input().split(',')))
+arr = list(map(int, input().split(',')))
 nums = [1] + arr + [1]
 n = len(nums)
 table = [[-1] * n for _ in range(n)]
