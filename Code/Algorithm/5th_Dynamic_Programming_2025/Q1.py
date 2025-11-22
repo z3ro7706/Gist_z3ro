@@ -2,7 +2,7 @@ import sys
 input = sys.stdin.readline
 
 
-def Bowl(l, r, nums, dp):
+def BowlingPin(l, r, nums, dp):
     if l + 1 >= r:
         return 0
 
@@ -12,7 +12,7 @@ def Bowl(l, r, nums, dp):
     _max = 0
 
     for k in range(l + 1, r):
-        s = Bowl(l, k, nums, dp) + Bowl(k, r, nums, dp) + nums[l] * nums[k] * nums[r]
+        s = BowlingPin(l, k, nums, dp) + BowlingPin(k, r, nums, dp) + nums[l] * nums[k] * nums[r]
         if s > _max:
             _max = s
 
@@ -25,4 +25,4 @@ nums = [1] + arr + [1]
 n = len(nums)
 table = [[-1] * n for _ in range(n)]
 
-print(Bowl(0, n - 1, nums, table))
+print(BowlingPin(0, n - 1, nums, table))
