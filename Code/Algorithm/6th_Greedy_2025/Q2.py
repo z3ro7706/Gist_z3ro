@@ -1,7 +1,7 @@
 import sys
 input = sys.stdin.readline
 
-def Bonusbudget(arr1:list) -> int:
+def Bonusbudget(arr1:list):
     n=len(arr1)
     if (n==0):
         return 0
