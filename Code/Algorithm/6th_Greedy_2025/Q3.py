@@ -1,7 +1,7 @@
 import sys
 input = sys.stdin.readline
 
-def max_profit(cost:list):
+def BitcoinMaxProfit(cost:list):
     n = len(cost)
     if(n<=1):
         return 0
@@ -25,4 +25,4 @@ def max_profit(cost:list):
 
 x = list(map(int, input().split(',')))
 
-print(max_profit(x))
+print(BitcoinMaxProfit(x))
