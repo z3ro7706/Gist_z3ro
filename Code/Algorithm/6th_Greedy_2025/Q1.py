@@ -1,69 +1,139 @@
 import sys
-input=sys.stdin.readline
+input = sys.stdin.readline
 
-def BridgingtheGap(arr_1:list,arr_2:list,amount:int,count:int,cost:int):
-    if(len(arr_1)<=0):
-        return cost
-    
-    if(count%2==0): #횟불이 왼쪽에 존재
-        arr_1_sort=merge_sort(arr_1)
-        if(len(arr_1)<=amount):
-            part_cost=0
-            for i in arr_1:
-                part_cost+=i
-            cost+=part_cost
-            return cost
-        else:
-            part_cost=0
-            for i in range(0,amount):
-                part_cost+=arr_1_sort[i]
-            cost+=part_cost
-            return BridgingtheGap(arr_1_sort[amount:],arr_1_sort[:amount],amount,count+1,cost)
-        
-        
-    
+def BridgingtheCap(state:int, loc:int, cost:list, k:int, n:int, memo:list, vis:list):
+    INF = 10**18
+
+    if (state == 0 and loc == 1):
+        return 0
+
+    if (vis[loc][state] == 1):
+        return INF
+
+    if (memo[loc][state] != -2):
+        return memo[loc][state]
+
+    ans = INF
+
+    if (loc == 0):
+        s_list = []
+        i = 0
+        while (i < n):
+            if (state & (1 << i)):
+                s_list.append(i)
+            i += 1
+
+        m = len(s_list)
+        limit = 1 << m
+        sub = 1
+
+        vis[loc][state] = 1
+
+        while (sub < limit):
+            cnt = 0
+            j = 0
+            while (j < m):
+                if (sub & (1 << j)):
+                    cnt += 1
+                j += 1
+
+            if (cnt >= 1 and cnt <= k):
+                mx = -1
+                j = 0
+                while (j < m):
+                    if (sub & (1 << j)):
+                        idx = s_list[j]
+                        t = cost[idx]
+                        if (mx < 0 or t > mx):
+                            mx = t
+                    j += 1
+
+                next_state = state
+                j = 0
+                while (j < m):
+                    if (sub & (1 << j)):
+                        p = s_list[j]
+                        next_state = next_state & (~(1 << p))
+                    j += 1
+
+                nxt = BridgingtheCap(next_state, 1, cost, k, n, memo, vis)
+                if (nxt >= 0 and nxt < INF and mx >= 0):
+                    v = mx + nxt
+                    if (v < ans):
+                        ans = v
+
+            sub += 1
+
+        vis[loc][state] = 0
+
+    else:
+        f_list = []
+        i = 0
+        while (i < n):
+            if (not (state & (1 << i))):
+                f_list.append(i)
+            i += 1
+
+        m = len(f_list)
+        limit = 1 << m
+        sub = 1
+
+        vis[loc][state] = 1
+
+        while (sub < limit):
+            cnt = 0
+            j = 0
+            while (j < m):
+                if (sub & (1 << j)):
+                    cnt += 1
+                j += 1
+
+            if (cnt >= 1 and cnt <= k):
+                mx = -1
+                j = 0
+                while (j < m):
+                    if (sub & (1 << j)):
+                        idx = f_list[j]
+                        t = cost[idx]
+                        if (mx < 0 or t > mx):
+                            mx = t
+                    j += 1
+
+                next_state = state
+                j = 0
+                while (j < m):
+                    if (sub & (1 << j)):
+                        p = f_list[j]
+                        next_state = next_state | (1 << p)
+                    j += 1
+
+                nxt = BridgingtheCap(next_state, 0, cost, k, n, memo, vis)
+                if (nxt >= 0 and nxt < INF and mx >= 0):
+                    v = mx + nxt
+                    if (v < ans):
+                        ans = v
+
+            sub += 1
+
+        vis[loc][state] = 0
+
+    if (ans == INF):
+        ans = -1
+
+    memo[loc][state] = ans
+    return ans
 
 
+data = list(map(int, input().split(',')))
+n = data[0]
+k = data[1]
+cost = data[2:]
 
+if (len(cost) > n):
+    cost = cost[:n]
 
-def combine(a,b):
-    arr=[] 
-    point_1=0
-    point_2=0
-    for i in range(len(a)+len(b)):
-        if(len(a)<=point_1):
-            while(len(b)>point_2):
-                arr.append(b[point_2])
-                point_2+=1
-            break
+start = (1 << n) - 1
+memo = [[-2] * (1 << n) for _ in range(2)]
+vis = [[0] * (1 << n) for _ in range(2)]
 
-        if(len(b)<=point_2):
-            while(len(a)>point_1):
-                arr.append(a[point_1])
-                point_1+=1
-            break
-
-         #작은 수만 집어 넙기       
-        if(a[point_1]>=b[point_2]):
-            arr.append(b[point_2])
-            point_2+=1
-
-        elif(a[point_1]<b[point_2]):
-            arr.append(a[point_1])
-            point_1+=1
-
-    return arr
-
-def merge_sort(a):
-    if(len(a)<=1):
-        return a
-    mid=len(a)//2
-    return combine(merge_sort(a[:mid]),merge_sort(a[mid:]))
-
-x=list(int,input().split(','))
-
-if(len(x[2:])!=x[0]):
-    print("Input error")
-    exit(0)
-
-print(BridgingtheGap(x[2:],[],x[1],0,0))
+print(BridgingtheCap(start, 0, cost, k, n, memo, vis))
