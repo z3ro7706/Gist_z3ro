@@ -1,69 +1,124 @@
-def CoCoLanguage(strArr):
-    arr = strArr
-    n = len(arr)
+import sys
+from collections import deque
+input = sys.stdin.readline
 
-    if (n == 0):
-        return ""
-
-    g = {}
-    indeg = {}
+def coco_language(words):
+    latter = {}
     i = 0
-    while (i < n):
-        word = arr[i]
+    while (i < len(words)):
+        word = words[i]
         j = 0
         while (j < len(word)):
-            ch = word[j]
-            if (ch not in g):
-                g[ch] = []
-                indeg[ch] = 0
+            count = word[j]
+            if (count not in latter):
+                latter[count] = 0
             j += 1
         i += 1
+
+    x = {}
+    y = {}
+    for count in latter:
+        x[count] = []
+        y[count] = 0
 
     i = 0
-    while (i < n - 1):
-        w1 = arr[i]
-        w2 = arr[i + 1]
-        len1 = len(w1)
-        len2 = len(w2)
+    while (i < len(words) - 1):
+        a = words[i]
+        b = words[i + 1]
+
         j = 0
-        while (j < len1 and j < len2 and w1[j] == w2[j]):
+        different = False
+        while (j < len(a) and j < len(b)):
+            if (a[j] != b[j]):
+                u = a[j]
+                v = b[j]
+
+                exist = False
+                k = 0
+                while (k < len(x[u])):
+                    if (x[u][k] == v):
+                        exist = True
+                        break
+                    k += 1
+
+                if (exist == False):
+                    x[u].append(v)
+                    y[v] += 1
+
+                different = True
+                break
             j += 1
-        if (j == len2 and len1 > len2):
+
+        if ((different == False) and (len(a) > len(b))):
             return ""
-        if (j < len1 and j < len2):
-            u = w1[j]
-            v = w2[j]
-            exist = False
-            k = 0
-            while (k < len(g[u])):
-                if (g[u][k] == v):
-                    exist = True
-                    break
-                k += 1
-            if (not exist):
-                g[u].append(v)
-                indeg[v] += 1
+
         i += 1
 
-    q = []
-    for ch in g:
-        if (indeg[ch] == 0):
-            q.append(ch)
+    use = {}
+    for count in latter:
+        use[count] = False
+
+    q = deque()
+    for count in y:
+        if (y[count] == 0):
+            q.append(count)
+
     ans = []
-    while (q):
-        u = q.pop(0)
-        ans.append(u)
+    clear = 0
+    all = 0
+    for _ in latter:
+        all += 1
+
+    while (len(q) > 0):
+        select = q.popleft()
+        if (use[select] == True):
+            continue
+
+        use[select] = True
+        ans.append(select)
+        clear += 1
+
         k = 0
-        while (k < len(g[u])):
-            v = g[u][k]
-            indeg[v] -= 1
-            if (indeg[v] == 0):
-                q.append(v)
+        while (k < len(x[select])):
+            nxt = x[select][k]
+            y[nxt] -= 1
+            if (y[nxt] == 0):
+                q.append(nxt)
             k += 1
-    if (len(ans) != len(g)):
+
+    if (clear != all):
         return ""
 
-    return ""
+    return "".join(ans)
 
-x=list(input())
-print(CoCoLanguage(x))
+
+line = input()
+# 어떤 환경에서는 line이 이미 list로 들어올 수 있어서 분기 처리
+if (type(line) == list):
+    words = line
+else:
+    line = str(line).strip()
+    if (line == ""):
+        print("")
+        sys.exit(0)
+
+    if (line[0] == "["):
+        temp = line[1:len(line) - 1]
+        raw = temp.split(",")
+    else:
+        raw = line.split(",")
+
+    words = []
+    i = 0
+    while (i < len(raw)):
+        word = raw[i].strip()
+
+        if (len(word) >= 2):
+            if (((word[0] == '"') and (word[len(word) - 1] == '"')) or ((word[0] == "'") and (word[len(word) - 1] == "'"))):
+                word = word[1:len(word) - 1]
+
+        if (word != ""):
+            words.append(word)
+        i += 1
+
+print(coco_language(words))
