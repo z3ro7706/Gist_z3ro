@@ -3,38 +3,26 @@ input=sys.stdin.readline
 
 from collections import deque
 
-# BFS 함수 정의
-def bfs(graph, start, visited):
-    # 큐(Queue) 구현을 위해 deque 라이브러리 사용
-    queue = deque([start])
-    # 현재 노드를 방문 처리
-    visited[start] = True
-    # 큐가 빌 때까지 반복
-    while queue:
-        # 큐에서 하나의 원소를 뽑아 출력
-        v = queue.popleft()
-        print(v, end=' ')
-        # 해당 원소와 연결된, 아직 방문하지 않은 원소들을 큐에 삽입
-        for i in graph[v]:
-            if not visited[i]:
-                queue.append(i)
-                visited[i] = True
+def BFS(graph:list, start:int, vistited:list):
+    queue = deque([start]) #queue에 시작할 값을 넣어주기
+    vistited[start]=True # 처음 시작 부분은 방문하였으므로, 방문처리
 
-# 각 노드가 연결된 정보를 리스트 자료형으로 표현(2차원 리스트)
-graph = [
-  [],
-  [2, 3, 8],
-  [1, 7],
-  [1, 4, 5],
-  [3, 5],
-  [3, 4],
-  [7],
-  [2, 6, 8],
-  [1, 7]
-]
+    while queue: #queue값이 존재할 때 까지 반복
+        v=queue.popleft() #리스트에서 하나 뽑기
+        print(v, end=' ') # 출력
+        for i in graph[v]: # v와 연결된 그래프에서
+            if not vistited[i]:
+                queue.append(i) #queue에 넣고
+                vistited[i]=True #방문처리
 
-# 각 노드가 방문된 정보를 리스트 자료형으로 표현(1차원 리스트)
-visited = [False] * 9
+n=int(input()) #vertex의 갯수 입력
+arr=[[]for _ in range(0,n+1)]
 
-# 정의된 BFS 함수 호출
-bfs(graph, 1, visited)
+for i in range(1,n+1):
+    arr_n=[]
+    arr_n=list(map(int,input().split(',')))
+    arr[i]=arr_n
+
+visited = [False for _ in range(0,n+1)]
+
+BFS(arr,1,visited)

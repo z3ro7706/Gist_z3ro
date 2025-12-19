@@ -1,24 +1,23 @@
-def dfs(graph, start_node):
- 
-    ## 기본은 항상 두개의 리스트를 별도로 관리해주는 것
-    need_visited, visited = list(), list()
- 
-    ## 시작 노드를 시정하기 
-    need_visited.append(start_node)
-    
-    ## 만약 아직도 방문이 필요한 노드가 있다면,
-    while need_visited:
- 
-        ## 그 중에서 가장 마지막 데이터를 추출 (스택 구조의 활용)
-        node = need_visited.pop()
-        
-        ## 만약 그 노드가 방문한 목록에 없다면
-        if node not in visited:
- 
-            ## 방문한 목록에 추가하기 
-            visited.append(node)
- 
-            ## 그 노드에 연결된 노드를 
-            need_visited.extend(graph[node])
-            
-    return visited
+def DFS(graph:list, start:int):
+    n_visted, visted=list(), list()
+    n_visted.append(start)
+
+    while n_visted:
+        node=n_visted.pop()
+        if node not in visted:
+            visted.append(node)
+            n_visted.extend(graph[node])
+
+    return visted
+
+n=int(input()) #vertex의 갯수 입력
+arr=[[]for _ in range(0,n+1)]
+
+for i in range(1,n+1):
+    arr_n=[]
+    arr_n=list(map(int,input().split(',')))
+    arr[i]=arr_n
+
+visited = [False for _ in range(0,n+1)]
+
+print(DFS(arr,1))

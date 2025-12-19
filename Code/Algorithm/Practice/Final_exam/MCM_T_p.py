@@ -19,7 +19,7 @@ def MCM(arr:list,table:list,table_p:list):
 
     return table_p
 
-arr=list(map(int,input().split(',')))
+arr=list(map(int,input().split()))
 
 table=[[ 0 for _ in range(0, len(arr))]for _ in range(0,len(arr))]
 table_p=[[ 0 for _ in range(0, len(arr))]for _ in range(0,len(arr))]
